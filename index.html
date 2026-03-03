@@ -78,36 +78,90 @@
 
     </div>
   </div>
-
-  <button class="pf-btn pf-prev" id="pfPrev">‹</button>
-  <button class="pf-btn pf-next" id="pfNext">›</button>
-</section>
-    <h2>Contact</h2>
-    <p>連絡先は選考時に個別共有します。</p>
-  </div>
-<script>
+ <script>
 (function(){
   const track = document.getElementById("pfSliderTrack");
-  const slides = document.querySelectorAll(".pf-slide");
+  const slides = Array.from(track.querySelectorAll(".pf-slide"));
   const prev = document.getElementById("pfPrev");
   const next = document.getElementById("pfNext");
 
-  let index = 0;
+  if (slides.length === 0) return;
 
-  function update(){
+  // 無限ループ用に先頭/末尾を複製
+  const firstClone = slides[0].cloneNode(true);
+  const lastClone  = slides[slides.length - 1].cloneNode(true);
+  firstClone.classList.add("is-clone");
+  lastClone.classList.add("is-clone");
+
+  track.appendChild(firstClone);
+  track.insertBefore(lastClone, slides[0]);
+
+  const all = Array.from(track.querySelectorAll(".pf-slide"));
+  let index = 1; // 最初は本物の1枚目
+  let timer = null;
+  const intervalMs = 3500; // 自動再生間隔（好みで）
+
+  function setTransition(on){
+    track.style.transition = on ? "transform 0.3s ease" : "none";
+  }
+
+  function goTo(i, animate = true){
+    index = i;
+    setTransition(animate);
     track.style.transform = `translateX(-${index * 100}%)`;
   }
 
-  prev.addEventListener("click", ()=>{
-    index = Math.max(index - 1, 0);
-    update();
+  // 初期位置
+  goTo(index, false);
+
+  function nextSlide(){
+    goTo(index + 1, true);
+  }
+
+  function prevSlide(){
+    goTo(index - 1, true);
+  }
+
+  next.addEventListener("click", () => { stop(); nextSlide(); start(); });
+  prev.addEventListener("click", () => { stop(); prevSlide(); start(); });
+
+  // 端に着いたら瞬間移動してループ
+  track.addEventListener("transitionend", () => {
+    const current = all[index];
+    if (!current) return;
+
+    if (current.classList.contains("is-clone")) {
+      // 末尾クローンに来た→本物の末尾へ
+      if (index === 0) {
+        goTo(all.length - 2, false);
+      }
+      // 先頭クローンに来た→本物の先頭へ
+      if (index === all.length - 1) {
+        goTo(1, false);
+      }
+    }
   });
 
-  next.addEventListener("click", ()=>{
-    index = Math.min(index + 1, slides.length - 1);
-    update();
-  });
+  // 自動再生（ホバーで停止）
+  function start(){
+    stop();
+    timer = setInterval(nextSlide, intervalMs);
+  }
+  function stop(){
+    if (timer) clearInterval(timer);
+    timer = null;
+  }
 
+  const slider = document.querySelector(".pf-slider");
+  slider.addEventListener("mouseenter", stop);
+  slider.addEventListener("mouseleave", start);
+
+  // スマホで触ってる間は止めたい場合
+  slider.addEventListener("touchstart", stop, {passive:true});
+  slider.addEventListener("touchend", start, {passive:true});
+
+  // 初回スタート
+  start();
 })();
 </script>
   
