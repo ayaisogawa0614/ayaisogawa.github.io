@@ -58,8 +58,58 @@
       <li>出版・新聞・雑誌：2年</li>
     </ul>
 
+    <h2>Photo</h2>
+
+<section class="pf-slider">
+  <div class="pf-slider__viewport">
+    <div class="pf-slider__track" id="pfSliderTrack">
+      <div class="pf-slide">
+        <img src="assets/images/IMG_0145.JPG" alt="">
+      </div>
+      <div class="pf-slide">
+        <img src="assets/images/IMG_0923.JPG" alt="">
+      </div>
+      <div class="pf-slide">
+        <img src="assets/images/IMG_0914.JPG" alt="">
+      </div>
+      <div class="pf-slide">
+        <img src="assets/images/IMG_0916.JPG" alt="">
+      </div>
+
+    </div>
+  </div>
+
+  <button class="pf-btn pf-prev" id="pfPrev">‹</button>
+  <button class="pf-btn pf-next" id="pfNext">›</button>
+</section>
     <h2>Contact</h2>
     <p>連絡先は選考時に個別共有します。</p>
   </div>
+<script>
+(function(){
+  const track = document.getElementById("pfSliderTrack");
+  const slides = document.querySelectorAll(".pf-slide");
+  const prev = document.getElementById("pfPrev");
+  const next = document.getElementById("pfNext");
+
+  let index = 0;
+
+  function update(){
+    track.style.transform = `translateX(-${index * 100}%)`;
+  }
+
+  prev.addEventListener("click", ()=>{
+    index = Math.max(index - 1, 0);
+    update();
+  });
+
+  next.addEventListener("click", ()=>{
+    index = Math.min(index + 1, slides.length - 1);
+    update();
+  });
+
+})();
+</script>
+  
 </body>
 </html>
