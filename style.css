@@ -14,12 +14,12 @@ body{
   padding: 60px;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-  background: #EEEEEE;
 }
 
 h1{
   font-size: 34px;
   margin-bottom: 8px;
+  background: #EEEEEE;
 }
 
 .subtitle{
