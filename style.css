@@ -61,12 +61,7 @@ li{ margin-bottom: 6px; }
   .container{ padding: 28px; }
   h1{ font-size: 26px; }
 }
-img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 8px;
-  margin-bottom: 20px;
-}
+
 /* ===== Portfolio Slider ===== */
 
 .pf-slider {
