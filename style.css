@@ -2,9 +2,9 @@
 
 body{
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
-  color: #222;
   line-height: 1.8;
   padding: 40px 20px;
+  background: #EEEEEE;
 }
 
 .container{
@@ -19,7 +19,6 @@ body{
 h1{
   font-size: 34px;
   margin-bottom: 8px;
-  background: #EEEEEE;
 }
 
 .subtitle{
